@@ -92,6 +92,67 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-2px);
 }
 
+/* Morphism Utilities */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+}
+
+.clay-card {
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  box-shadow: 
+    10px 10px 20px rgba(0, 0, 0, 0.05),
+    -10px -10px 20px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 1),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.02);
+  padding: 32px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.clay-card:hover {
+  transform: scale(1.01);
+  box-shadow: 
+    15px 15px 30px rgba(0, 0, 0, 0.06),
+    -15px -15px 30px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255, 255, 255, 1),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.clay-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 12px 24px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 
+    6px 6px 12px rgba(67, 56, 202, 0.2),
+    -6px -6px 12px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255,255,255,0.2),
+    inset -2px -2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.clay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    8px 8px 16px rgba(67, 56, 202, 0.25),
+    -8px -8px 16px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255,255,255,0.2),
+    inset -2px -2px 4px rgba(0,0,0,0.1);
+}
+
 /* Buttons */
 .btn-primary {
   background-color: var(--primary-color);

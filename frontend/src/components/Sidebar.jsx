@@ -1,11 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Send } from 'lucide-react';
+import { LayoutDashboard, Users, Send, ArrowLeft } from 'lucide-react';
 
 export default function Sidebar() {
   const location = useLocation();
 
   const links = [
-    { name: 'Dashboard', path: '/', icon: LayoutDashboard },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Audience', path: '/audience', icon: Users },
     { name: 'Campaigns', path: '/campaigns', icon: Send },
   ];
@@ -46,6 +46,12 @@ export default function Sidebar() {
           );
         })}
       </nav>
+
+      <div style={{ marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid var(--border-color)' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>
+          <ArrowLeft size={16} /> Exit Workspace
+        </Link>
+      </div>
     </div>
   );
 }
