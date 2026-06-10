@@ -13,10 +13,10 @@ export default function Landing() {
         </div>
         <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
           <Link to="/features" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '0.95rem', fontWeight: '500', color: 'var(--text-secondary)', cursor: 'pointer' }}>Features</span>
+            <span className="nav-link">Features</span>
           </Link>
           <Link to="/docs" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '0.95rem', fontWeight: '500', color: 'var(--text-secondary)', cursor: 'pointer' }}>Documentation</span>
+            <span className="nav-link">Documentation</span>
           </Link>
           <Link to="/dashboard" style={{ textDecoration: 'none' }}>
             <button className="btn-primary" style={{ padding: '10px 24px' }}>
@@ -27,25 +27,25 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section style={{ padding: '80px 64px 120px 64px', maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '64px', alignItems: 'center' }}>
+      <section style={{ padding: '40px 64px 120px 64px', maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '64px', alignItems: 'center', minHeight: 'calc(100vh - 89px)' }}>
         
         {/* Left Column: Typography */}
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--surface-color)', padding: '6px 16px', borderRadius: '100px', border: '1px solid var(--border-color)', marginBottom: '32px', fontSize: '0.85rem', fontWeight: '600', letterSpacing: '0.5px' }}>
+          <div className="animate-fade-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--surface-color)', padding: '6px 16px', borderRadius: '100px', border: '1px solid var(--border-color)', marginBottom: '32px', fontSize: '0.85rem', fontWeight: '600', letterSpacing: '0.5px', animationDelay: '0s' }}>
             <Sparkles size={14} color="var(--primary-color)" /> INTELLIGENCE WOVEN IN
           </div>
           
-          <h1 className="editorial-serif" style={{ fontSize: '6rem', lineHeight: '1.05', marginBottom: '32px', color: 'var(--text-primary)' }}>
+          <h1 className="editorial-serif animate-fade-up" style={{ fontSize: '6rem', lineHeight: '1.05', marginBottom: '32px', color: 'var(--text-primary)', animationDelay: '0.15s' }}>
             Reach <br/>
             shoppers with <br/>
             <span style={{ color: 'var(--primary-color)' }}>pure intent.</span>
           </h1>
           
-          <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '500px', marginBottom: '48px', lineHeight: '1.6' }}>
+          <p className="animate-fade-up" style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '500px', marginBottom: '48px', lineHeight: '1.6', animationDelay: '0.3s' }}>
             Translate natural language directly into robust data segments. Dispatch highly personalized lifecycle campaigns in seconds, without writing a single rule.
           </p>
           
-          <div style={{ display: 'flex', gap: '16px' }}>
+          <div className="animate-fade-up" style={{ display: 'flex', gap: '16px', animationDelay: '0.45s' }}>
             <Link to="/dashboard" style={{ textDecoration: 'none' }}>
               <button className="clay-btn" style={{ padding: '16px 32px', fontSize: '1.1rem' }}>
                 Open Workspace <ArrowRight size={18}/>
@@ -54,46 +54,47 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Right Column: Creative Liquid Glass / Soft Clay Graphic */}
+        {/* Right Column: Clean Floating Cards */}
         <div style={{ position: 'relative', height: '600px', width: '100%' }}>
-          {/* Abstract floating shapes behind */}
-          <div style={{ position: 'absolute', top: '10%', right: '10%', width: '300px', height: '300px', borderRadius: '50%', background: 'linear-gradient(to bottom right, #4338CA, #8B5CF6)', filter: 'blur(80px)', opacity: '0.2' }}></div>
-          <div style={{ position: 'absolute', bottom: '10%', left: '10%', width: '250px', height: '250px', borderRadius: '50%', background: 'linear-gradient(to top right, #06b6d4, #3b82f6)', filter: 'blur(60px)', opacity: '0.15' }}></div>
 
           {/* Foreground UI Elements */}
-          <div className="liquid-glass" style={{ position: 'absolute', top: '15%', right: '5%', width: '85%', padding: '24px', zIndex: '2', transform: 'rotate(2deg)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }}></div>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#f59e0b' }}></div>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#10b981' }}></div>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', marginLeft: '12px', fontFamily: 'monospace' }}>~/ai/segment.js</span>
-            </div>
-            <div style={{ fontFamily: 'monospace', fontSize: '0.9rem', lineHeight: '1.8' }}>
-              <span style={{ color: 'var(--text-tertiary)' }}>&gt; Translating intent...</span><br/>
-              <span style={{ color: '#ec4899' }}>const</span> query <span style={{ color: '#06b6d4' }}>=</span> <span style={{ color: '#ec4899' }}>await</span> ai.parse(<br/>
-              &nbsp;&nbsp;<span style={{ color: '#10b981' }}>"Shoppers with LTV &gt; $1000"</span><br/>
-              );<br/>
-              <span style={{ color: 'var(--text-tertiary)' }}>&gt; Found 1,245 profiles.</span>
+          <div className="animate-fade-up" style={{ position: 'absolute', top: '15%', right: '5%', width: '85%', zIndex: '2', animationDelay: '0.8s' }}>
+            <div className="floating-card" style={{ padding: '24px', transform: 'rotate(2deg)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }}></div>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#f59e0b' }}></div>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#10b981' }}></div>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', marginLeft: '12px', fontFamily: 'monospace' }}>~/ai/segment.js</span>
+              </div>
+              <div style={{ fontFamily: 'monospace', fontSize: '0.9rem', lineHeight: '1.8' }}>
+                <span style={{ color: 'var(--text-tertiary)' }}>&gt; Translating intent...</span><br/>
+                <span style={{ color: '#ec4899' }}>const</span> query <span style={{ color: '#06b6d4' }}>=</span> <span style={{ color: '#ec4899' }}>await</span> ai.parse(<br/>
+                &nbsp;&nbsp;<span style={{ color: '#10b981' }}>"Shoppers with LTV &gt; $1000"</span><br/>
+                );<br/>
+                <span style={{ color: 'var(--text-tertiary)' }}>&gt; Found 1,245 profiles.</span>
+              </div>
             </div>
           </div>
 
-          <div className="clay-card" style={{ position: 'absolute', bottom: '15%', left: '5%', width: '70%', zIndex: '3', padding: '24px', transform: 'rotate(-3deg)' }}>
-             <div className="flex-between" style={{ marginBottom: '16px' }}>
-               <h4 className="editorial-serif" style={{ fontSize: '1.2rem', margin: '0' }}>Summer VIP Outreach</h4>
-               <span style={{ background: '#dcfce7', color: '#166534', padding: '4px 8px', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600' }}>DISPATCHED</span>
-             </div>
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-               <div>
-                 <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>Delivery Rate</div>
-                 <div className="editorial-serif" style={{ fontSize: '2.5rem', lineHeight: '1' }}>98.2%</div>
+          <div className="animate-fade-up" style={{ position: 'absolute', bottom: '15%', left: '5%', width: '70%', zIndex: '3', animationDelay: '1.0s' }}>
+            <div className="floating-card" style={{ padding: '24px', transform: 'rotate(-3deg)' }}>
+               <div className="flex-between" style={{ marginBottom: '16px' }}>
+                 <h4 className="editorial-serif" style={{ fontSize: '1.2rem', margin: '0' }}>Summer VIP Outreach</h4>
+                 <span style={{ background: '#dcfce7', color: '#166534', padding: '4px 8px', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600' }}>DISPATCHED</span>
                </div>
-               <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-end', height: '40px' }}>
-                 <div style={{ width: '8px', height: '20px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
-                 <div style={{ width: '8px', height: '30px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
-                 <div style={{ width: '8px', height: '15px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
-                 <div style={{ width: '8px', height: '40px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
+               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                 <div>
+                   <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>Delivery Rate</div>
+                   <div className="editorial-serif" style={{ fontSize: '2.5rem', lineHeight: '1' }}>98.2%</div>
+                 </div>
+                 <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-end', height: '40px' }}>
+                   <div style={{ width: '8px', height: '20px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
+                   <div style={{ width: '8px', height: '30px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
+                   <div style={{ width: '8px', height: '15px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
+                   <div style={{ width: '8px', height: '40px', background: 'var(--primary-color)', borderRadius: '4px' }}></div>
+                 </div>
                </div>
-             </div>
+            </div>
           </div>
           
         </div>
