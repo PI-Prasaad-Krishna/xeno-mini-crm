@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Send, Zap } from 'lucide-react';
+import { toast } from 'sonner';
 
 const API_BASE = 'http://localhost:3001/api';
 
@@ -12,8 +13,9 @@ export default function Campaigns() {
   const [draftPreview, setDraftPreview] = useState('');
 
   const handleCreate = async () => {
-    if (!name || !segmentDescription || !messageTemplate) return alert('Fill all fields');
+    if (!name || !segmentDescription || !messageTemplate) return toast.error('Please fill all fields');
     setLoading(true);
+    const toastId = toast.loading('Synthesizing audience and dispatching campaign...');
     try {
       const segRes = await axios.post(`${API_BASE}/segments/query`, { description: segmentDescription });
       const campRes = await axios.post(`${API_BASE}/campaigns/create`, {
@@ -25,14 +27,14 @@ export default function Campaigns() {
 
       await axios.post(`${API_BASE}/campaigns/${campRes.data._id}/send`);
       
-      alert('Campaign successfully dispatched.');
+      toast.success('Campaign successfully dispatched to network!', { id: toastId });
       setName('');
       setSegmentDescription('');
       setMessageTemplate('');
       setDraftPreview('');
     } catch (err) {
       console.error(err);
-      alert('Error creating campaign');
+      toast.error('Transmission failed.', { id: toastId });
     } finally {
       setLoading(false);
     }

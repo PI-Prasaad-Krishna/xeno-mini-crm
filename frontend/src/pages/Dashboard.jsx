@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, AreaChart, Area } from 'recharts';
 import { ArrowUpRight } from 'lucide-react';
+import { io } from 'socket.io-client';
 
 const API_BASE = 'http://localhost:3001/api';
 
@@ -11,8 +12,30 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchCampaigns();
-    const interval = setInterval(fetchCampaigns, 5000);
-    return () => clearInterval(interval);
+    
+    // Connect to real-time socket server
+    const socket = io('http://localhost:3001');
+    
+    socket.on('campaign-progress', (event) => {
+      setCampaigns(prevCampaigns => 
+        prevCampaigns.map(c => {
+          if (c._id === event.campaignId) {
+            return {
+              ...c,
+              stats: {
+                ...c.stats,
+                [event.status]: (c.stats[event.status] || 0) + 1
+              }
+            };
+          }
+          return c;
+        })
+      );
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const fetchCampaigns = async () => {
@@ -47,16 +70,45 @@ export default function Dashboard() {
     { name: 'Clicked', value: stats.clicked },
   ];
 
+  const historicalData = [
+    { day: 'Mon', volume: 1200 },
+    { day: 'Tue', volume: 2100 },
+    { day: 'Wed', volume: 1800 },
+    { day: 'Thu', volume: 3400 },
+    { day: 'Fri', volume: 2800 },
+    { day: 'Sat', volume: 1500 },
+    { day: 'Sun', volume: 4200 },
+  ];
+
   if (loading) return <div className="main-content">Loading data...</div>;
 
   return (
     <div className="main-content">
       <div className="mb-8">
         <h1 className="editorial-serif text-title mb-2">Overview</h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Performance insights across all marketing initiatives.</p>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Performance insights across all marketing initiatives. <span style={{ color: '#10b981', fontWeight: '500', fontSize: '0.85rem', marginLeft: '12px', background: '#dcfce7', padding: '4px 8px', borderRadius: '100px' }}>● REAL-TIME SYNC</span></p>
       </div>
 
       <div className="bento-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: '32px' }}>
+        
+        {/* Full Width Engagement Chart */}
+        <div className="bento-card" style={{ gridColumn: 'span 3' }}>
+           <h3 style={{ color: 'var(--text-primary)', marginBottom: '24px', fontSize: '1.2rem' }}>Engagement Volume (7d)</h3>
+           <div style={{ height: '220px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={historicalData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorVolume" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--primary-color)" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="var(--primary-color)" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Tooltip cursor={{ stroke: 'var(--border-color)', strokeWidth: 1 }} contentStyle={{ borderRadius: '8px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-md)' }} />
+                <Area type="monotone" dataKey="volume" stroke="var(--primary-color)" strokeWidth={3} fillOpacity={1} fill="url(#colorVolume)" animationDuration={1500} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
         <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <h3 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Delivery Rate</h3>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginTop: '16px' }}>

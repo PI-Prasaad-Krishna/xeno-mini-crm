@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Command, ArrowRight } from 'lucide-react';
+import { toast } from 'sonner';
 
 const API_BASE = 'http://localhost:3001/api';
 
@@ -12,12 +13,14 @@ export default function Audience() {
   const generateSegment = async () => {
     if (!prompt) return;
     setLoading(true);
+    const toastId = toast.loading('Querying natural language engine...');
     try {
       const { data } = await axios.post(`${API_BASE}/segments/query`, { description: prompt });
       setSegmentData(data);
+      toast.success(`Synthesized ${data.totalCount} shopper profiles`, { id: toastId });
     } catch (err) {
       console.error(err);
-      alert('Failed to generate segment. Make sure GEMINI_API_KEY is set in backend.');
+      toast.error('Failed to generate segment. Check GEMINI_API_KEY.', { id: toastId });
     } finally {
       setLoading(false);
     }

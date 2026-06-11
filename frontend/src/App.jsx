@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Audience from './pages/Audience';
@@ -10,8 +11,10 @@ import './index.css';
 
 function App() {
   return (
-    <Router>
-      <Routes>
+    <>
+      <Toaster position="bottom-right" richColors theme="light" />
+      <Router>
+        <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/docs" element={<Docs />} />
         <Route path="/features" element={<Features />} />
@@ -26,7 +29,8 @@ function App() {
           </div>
         } />
       </Routes>
-    </Router>
+      </Router>
+    </>
   );
 }
 

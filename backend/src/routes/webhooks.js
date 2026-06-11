@@ -42,6 +42,16 @@ router.post('/channel-receipt', async (req, res) => {
     if (['sent', 'delivered', 'opened', 'clicked', 'failed'].includes(lowerStatus)) {
       statUpdate[`stats.${lowerStatus}`] = 1;
       await Campaign.findByIdAndUpdate(comm.campaignId, { $inc: statUpdate });
+      
+      // Emit real-time progress to any connected dashboard
+      const io = req.app.get('io');
+      if (io) {
+        io.emit('campaign-progress', {
+          campaignId: comm.campaignId.toString(),
+          status: lowerStatus,
+          timestamp: new Date()
+        });
+      }
     }
 
     res.json({ message: 'Receipt processed successfully' });
