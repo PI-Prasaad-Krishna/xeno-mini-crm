@@ -234,6 +234,38 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-1px);
 }
 
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-radius: 100px;
+  color: var(--text-secondary);
+  background: transparent;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.sidebar-link:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+.sidebar-link.active {
+  color: var(--text-primary);
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  font-weight: 600;
+}
+
+.sidebar-link.active:hover {
+  transform: none;
+  background: white;
+}
+
 /* Inputs & Command Line */
 .command-input {
   background: var(--surface-color);

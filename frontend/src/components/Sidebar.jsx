@@ -25,20 +25,7 @@ export default function Sidebar() {
             <Link 
               key={link.name} 
               to={link.path}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                padding: '12px 20px',
-                borderRadius: '100px',
-                color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                background: isActive ? 'white' : 'transparent',
-                boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.03)' : 'none',
-                textDecoration: 'none',
-                transition: 'all 0.3s ease',
-                fontWeight: isActive ? '600' : '500',
-                fontSize: '0.95rem'
-              }}
+              className={`sidebar-link ${isActive ? 'active' : ''}`}
             >
               <Icon size={20} color={isActive ? 'var(--primary-color)' : 'var(--text-tertiary)'} strokeWidth={isActive ? 2.5 : 2} />
               {link.name}
@@ -48,7 +35,7 @@ export default function Sidebar() {
       </nav>
 
       <div style={{ marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid var(--border-color)' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>
+        <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>
           <ArrowLeft size={16} /> Exit Workspace
         </Link>
       </div>

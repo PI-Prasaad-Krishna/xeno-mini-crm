@@ -133,9 +133,18 @@ router.post('/:id/send', async (req, res) => {
     
     // Initial stats
     campaign.stats.sent = sentCount;
+    campaign.status = sentCount > 0 ? 'SENT' : 'FAILED';
     await campaign.save();
 
-    res.json({ message: 'Campaign dispatch started', sentCount, campaignId: campaign._id });
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('campaign-status-update', {
+        campaignId: campaign._id,
+        status: campaign.status
+      });
+    }
+
+    res.json({ message: 'Campaign dispatch completed', sentCount, campaignId: campaign._id });
     
   } catch (error) {
     res.status(500).json({ error: error.message });

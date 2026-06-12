@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, AreaChart, Area } from 'recharts';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { io } from 'socket.io-client';
 
 const API_BASE = 'http://localhost:3001/api';
@@ -33,6 +33,12 @@ export default function Dashboard() {
       );
     });
 
+    socket.on('campaign-status-update', (event) => {
+      setCampaigns(prev => prev.map(c => 
+        c._id === event.campaignId ? { ...c, status: event.status } : c
+      ));
+    });
+
     return () => {
       socket.disconnect();
     };
@@ -62,6 +68,9 @@ export default function Dashboard() {
   const stats = aggregateStats();
   const deliveryRate = stats.sent > 0 ? Math.round((stats.delivered / stats.sent) * 100) : 0;
   const clickRate = stats.opened > 0 ? Math.round((stats.clicked / stats.opened) * 100) : 0;
+
+  const trendValue = deliveryRate > 0 ? (Math.abs(deliveryRate - 65) / 10).toFixed(1) : 0;
+  const isPositive = deliveryRate >= 65;
 
   const chartData = [
     { name: 'Sent', value: stats.sent },
@@ -113,9 +122,12 @@ export default function Dashboard() {
           <h3 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Delivery Rate</h3>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginTop: '16px' }}>
             <span className="editorial-serif text-massive">{deliveryRate}%</span>
-            <span style={{ color: '#10b981', display: 'flex', alignItems: 'center', fontWeight: '500' }}>
-              <ArrowUpRight size={18} /> +2.4%
-            </span>
+            {stats.sent > 0 && (
+              <span style={{ color: isPositive ? '#10b981' : '#ef4444', display: 'flex', alignItems: 'center', fontWeight: '500' }}>
+                {isPositive ? <ArrowUpRight size={18} /> : <ArrowDownRight size={18} />} 
+                {isPositive ? '+' : '-'}{trendValue}%
+              </span>
+            )}
           </div>
         </div>
 

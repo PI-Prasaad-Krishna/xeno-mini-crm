@@ -1,43 +1,48 @@
 const mongoose = require('mongoose');
+const { faker } = require('@faker-js/faker');
 const Customer = require('./models/Customer');
 const Order = require('./models/Order');
+const Campaign = require('./models/Campaign');
+const Communication = require('./models/Communication');
+require('dotenv').config();
 
-mongoose.connect('mongodb://localhost:27017/xeno_crm')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/xeno_crm')
   .then(async () => {
-    console.log('Connected to MongoDB. Seeding data...');
+    console.log('Connected to MongoDB. Wiping existing data...');
     
     await Customer.deleteMany({});
     await Order.deleteMany({});
+    await Campaign.deleteMany({});
+    await Communication.deleteMany({});
 
-    const customers = [];
-    for (let i = 1; i <= 100; i++) {
-      customers.push({
-        name: `Customer ${i}`,
-        email: `customer${i}@example.com`,
-        phone: `+1555010${i.toString().padStart(3, '0')}`,
-        tags: Math.random() > 0.8 ? ['VIP'] : Math.random() > 0.5 ? ['Coffee'] : ['Tea'],
-        lifetimeValue: Math.floor(Math.random() * 1000)
-      });
-    }
+    console.log('Seeding 10,000 Realistic Shopper Profiles...');
+    const BATCH_SIZE = 1000;
+    const TOTAL_CUSTOMERS = 10000;
+    let insertedCustomersCount = 0;
 
-    const insertedCustomers = await Customer.insertMany(customers);
-    console.log(`Inserted ${insertedCustomers.length} customers.`);
+    const availableTags = ['VIP', 'Coffee', 'Tea', 'Apparel', 'Activewear', 'Summer Sale', 'Winter Core', 'Loyalty Member', 'Churn Risk', 'High Spender', 'Discount Seeker', 'Beauty', 'Skincare'];
 
-    const orders = [];
-    for (const customer of insertedCustomers) {
-      if (Math.random() > 0.3) {
-        orders.push({
-          customerId: customer._id,
-          totalAmount: Math.floor(Math.random() * 200) + 10,
-          items: [{ name: 'Test Product', price: 10, quantity: 1 }]
+    for (let i = 0; i < TOTAL_CUSTOMERS / BATCH_SIZE; i++) {
+      const batch = [];
+      for (let j = 0; j < BATCH_SIZE; j++) {
+        const numTags = faker.number.int({ min: 1, max: 4 });
+        const tags = faker.helpers.arrayElements(availableTags, numTags);
+
+        batch.push({
+          name: faker.person.fullName(),
+          email: `${faker.internet.username().toLowerCase()}_${i}_${j}@example.com`,
+          phone: faker.phone.number(),
+          tags: tags,
+          lifetimeValue: faker.number.int({ min: 10, max: 5000 }),
+          createdAt: faker.date.past({ years: 2 })
         });
       }
+      const inserted = await Customer.insertMany(batch);
+      insertedCustomersCount += inserted.length;
+      console.log(`Progress: ${insertedCustomersCount} / ${TOTAL_CUSTOMERS} customers inserted...`);
     }
-    
-    const insertedOrders = await Order.insertMany(orders);
-    console.log(`Inserted ${insertedOrders.length} orders.`);
 
-    console.log('Done!');
+    console.log('Seeding complete! You now have a massive, realistic dataset to query in the Audience Terminal.');
     process.exit(0);
   })
   .catch(err => {
