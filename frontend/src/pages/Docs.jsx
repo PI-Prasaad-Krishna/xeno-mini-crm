@@ -79,6 +79,26 @@ export default function Docs() {
           </div>
         </div>
 
+        <div className="clay-card" style={{ marginTop: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+            <Code size={24} color="var(--primary-color)" />
+            <h2 className="editorial-serif" style={{ fontSize: '1.8rem' }}>Real-Time WebSocket Sync</h2>
+          </div>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '24px' }}>
+            To provide a true CRM experience, the backend pushes live status updates via Socket.io directly to the frontend Dashboard the millisecond webhooks are digested, completely eliminating the need for clients to poll the API.
+          </p>
+          
+          <div className="liquid-glass" style={{ padding: '24px', fontFamily: 'monospace', fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+             <div style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>// Backend WebSocket Emitter</div>
+             <div style={{ marginBottom: '8px' }}>
+               <span style={{ color: '#ec4899' }}>const</span> io <span style={{ color: '#06b6d4' }}>=</span> req.app.get(<span style={{ color: '#10b981' }}>'io'</span>);<br/>
+               <span style={{ color: '#ec4899' }}>if</span> (io) &#123;<br/>
+               &nbsp;&nbsp;io.emit(<span style={{ color: '#10b981' }}>'campaign-progress'</span>, &#123; campaignId, status &#125;);<br/>
+               &#125;
+             </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );

@@ -52,8 +52,13 @@ router.post('/create', async (req, res) => {
 router.post('/draft', async (req, res) => {
   try {
     const { messageTemplate, customerId } = req.body;
-    const customer = await Customer.findById(customerId);
-    if (!customer) return res.status(404).json({ error: 'Customer not found' });
+    let customer;
+    if (customerId && customerId !== 'replace_with_real_id') {
+      customer = await Customer.findById(customerId);
+    } else {
+      customer = await Customer.findOne();
+    }
+    if (!customer) return res.status(404).json({ error: 'Customer not found. Seed database first.' });
 
     if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({ error: 'GEMINI_API_KEY is not configured.' });
@@ -90,62 +95,63 @@ router.post('/:id/send', async (req, res) => {
     campaign.status = 'SENDING';
     await campaign.save();
 
-    // In a real system, this would be queued in a background job like BullMQ or SQS
-    const audience = await Customer.find(campaign.segmentQuery);
-    
-    // We mock the dispatcher synchronously here for simplicity, but send async requests
-    // to the channel service.
-    
-    const channelServiceUrl = process.env.CHANNEL_SERVICE_URL || 'http://localhost:3002/api/send';
-    
-    let sentCount = 0;
-    
-    // For large scale, we should batch.
-    for (const customer of audience) {
-      // Create communication record
-      const comm = new Communication({
-        campaignId: campaign._id,
-        customerId: customer._id,
-        channel: 'WHATSAPP', // Hardcoded channel for demo
-        message: campaign.messageTemplate.replace('{name}', customer.name), // Simplistic fallback
-        status: 'PENDING'
-      });
-      await comm.save();
+    // Respond immediately so the frontend doesn't timeout during large dispatches
+    res.json({ message: 'Campaign dispatch started', campaignId: campaign._id });
 
-      // Dispatch to channel service
+    // Background processing
+    setImmediate(async () => {
       try {
-        fetch(channelServiceUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            communicationId: comm._id.toString(),
-            customerId: customer._id.toString(),
-            channel: comm.channel,
-            message: comm.message
-          })
-        }).catch(err => console.error('Failed to dispatch to channel service', err));
+        const audience = await Customer.find(campaign.segmentQuery);
+        const channelServiceUrl = process.env.CHANNEL_SERVICE_URL || 'http://localhost:3002/api/send';
+        let sentCount = 0;
         
-        sentCount++;
-      } catch (e) {
-        console.error('Dispatch error', e);
+        // Process in batches or sequentially. Sequentially allows cool real-time dashboard updates!
+        for (const customer of audience) {
+          const comm = new Communication({
+            campaignId: campaign._id,
+            customerId: customer._id,
+            channel: 'WHATSAPP',
+            message: campaign.messageTemplate.replace('{name}', customer.name),
+            status: 'PENDING'
+          });
+          await comm.save();
+
+          // Fire and forget
+          fetch(channelServiceUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              communicationId: comm._id.toString(),
+              customerId: customer._id.toString(),
+              channel: comm.channel,
+              message: comm.message
+            })
+          }).catch(err => console.error('Dispatch warning', err.message));
+          
+          sentCount++;
+        }
+        
+        // Finalize status
+        const finalStatus = sentCount > 0 ? 'SENT' : 'FAILED';
+        await Campaign.findByIdAndUpdate(campaign._id, {
+          $set: { 
+            'stats.sent': sentCount,
+            status: finalStatus
+          }
+        });
+
+        const io = req.app.get('io');
+        if (io) {
+          io.emit('campaign-status-update', {
+            campaignId: campaign._id,
+            status: finalStatus
+          });
+        }
+      } catch (err) {
+        console.error('Background dispatch error:', err);
       }
-    }
-    
-    // Initial stats
-    campaign.stats.sent = sentCount;
-    campaign.status = sentCount > 0 ? 'SENT' : 'FAILED';
-    await campaign.save();
+    });
 
-    const io = req.app.get('io');
-    if (io) {
-      io.emit('campaign-status-update', {
-        campaignId: campaign._id,
-        status: campaign.status
-      });
-    }
-
-    res.json({ message: 'Campaign dispatch completed', sentCount, campaignId: campaign._id });
-    
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
