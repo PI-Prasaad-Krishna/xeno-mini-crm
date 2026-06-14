@@ -116,17 +116,21 @@ router.post('/:id/send', async (req, res) => {
           });
           await comm.save();
 
-          // Fire and forget
-          fetch(channelServiceUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              communicationId: comm._id.toString(),
-              customerId: customer._id.toString(),
-              channel: comm.channel,
-              message: comm.message
-            })
-          }).catch(err => console.error('Dispatch warning', err.message));
+          // Await the fetch to prevent Out-Of-Memory (OOM) crashes on Render Free Tier
+          try {
+            await fetch(channelServiceUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                communicationId: comm._id.toString(),
+                customerId: customer._id.toString(),
+                channel: comm.channel,
+                message: comm.message
+              })
+            });
+          } catch (err) {
+            console.error('Dispatch warning', err.message);
+          }
           
           sentCount++;
         }
