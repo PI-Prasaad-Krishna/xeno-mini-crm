@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, AreaCh
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { io } from 'socket.io-client';
 
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = 'https://xeno-mini-crm-backend-llhn.onrender.com/api';
 
 export default function Dashboard() {
   const [campaigns, setCampaigns] = useState([]);
@@ -14,7 +14,7 @@ export default function Dashboard() {
     fetchCampaigns();
     
     // Connect to real-time socket server
-    const socket = io('http://localhost:3001');
+    const socket = io('https://xeno-mini-crm-backend-llhn.onrender.com');
     
     socket.on('campaign-progress', (event) => {
       setCampaigns(prevCampaigns => 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Command, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = 'https://xeno-mini-crm-backend-llhn.onrender.com/api';
 
 export default function Audience() {
   const [prompt, setPrompt] = useState('');
