@@ -12,6 +12,13 @@ export default function Audience() {
 
   const generateSegment = async () => {
     if (!prompt) return;
+    
+    const isSpam = (str) => /^(.)\1+$/.test(str.trim());
+    if (prompt.trim().split(/\s+/).length < 2 || isSpam(prompt)) {
+      toast.error('Please provide a more descriptive query (e.g. "Customers tagged with VIP")');
+      return;
+    }
+    
     setLoading(true);
     const toastId = toast.loading('Querying natural language engine...');
     try {

@@ -14,6 +14,12 @@ export default function Campaigns() {
 
   const handleCreate = async () => {
     if (!name || !segmentDescription || !messageTemplate) return toast.error('Please fill all fields');
+    
+    const isSpam = (str) => /^(.)\1+$/.test(str.trim());
+    if (name.trim().length < 3 || isSpam(name)) return toast.error('Please provide a meaningful campaign nomenclature');
+    if (segmentDescription.trim().split(/\s+/).length < 2 || isSpam(segmentDescription)) return toast.error('Please provide a descriptive target audience (e.g. "VIP customers")');
+    if (messageTemplate.trim().split(/\s+/).length < 3 || isSpam(messageTemplate)) return toast.error('Message template needs to be a real sentence (min 3 words)');
+    
     setLoading(true);
     const toastId = toast.loading('Synthesizing audience and dispatching campaign...');
     try {
