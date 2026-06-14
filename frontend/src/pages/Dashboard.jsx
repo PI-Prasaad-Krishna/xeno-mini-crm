@@ -98,7 +98,7 @@ export default function Dashboard() {
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Performance insights across all marketing initiatives. <span style={{ color: '#10b981', fontWeight: '500', fontSize: '0.85rem', marginLeft: '12px', background: '#dcfce7', padding: '4px 8px', borderRadius: '100px' }}>● REAL-TIME SYNC</span></p>
       </div>
 
-      <div className="bento-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: '32px' }}>
+      <div className="dashboard-grid">
         
         {/* Full Width Engagement Chart */}
         <div className="bento-card" style={{ gridColumn: 'span 3' }}>

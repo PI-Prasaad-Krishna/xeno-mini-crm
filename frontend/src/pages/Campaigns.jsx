@@ -65,7 +65,7 @@ export default function Campaigns() {
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Compose and dispatch highly targeted messaging sequences.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '32px', alignItems: 'start' }}>
+      <div className="responsive-split-grid">
         <div className="bento-card" style={{ padding: '40px' }}>
           <div className="mb-8">
             <label style={{ display: 'block', marginBottom: '12px', fontWeight: '600', fontSize: '0.9rem', letterSpacing: '0.5px' }}>CAMPAIGN NOMENCLATURE</label>

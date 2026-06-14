@@ -6,12 +6,12 @@ export default function Landing() {
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)', overflowY: 'auto' }}>
       
       {/* Navigation */}
-      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 64px', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)' }}>
+      <nav className="landing-nav" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--text-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '600', fontSize: '20px', fontFamily: 'Playfair Display, serif' }}>X</div>
           <h2 className="editorial-serif" style={{ fontSize: '24px', margin: 0, letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>Xeno.</h2>
         </div>
-        <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+        <div className="landing-nav-links" style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
           <Link to="/features" style={{ textDecoration: 'none' }}>
             <span className="nav-link">Features</span>
           </Link>
@@ -27,7 +27,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section style={{ padding: '40px 64px 120px 64px', maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '64px', alignItems: 'center', minHeight: 'calc(100vh - 89px)' }}>
+      <section className="landing-hero" style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', alignItems: 'center', minHeight: 'calc(100vh - 89px)' }}>
         
         {/* Left Column: Typography */}
         <div>
@@ -55,7 +55,7 @@ export default function Landing() {
         </div>
 
         {/* Right Column: Clean Floating Cards */}
-        <div style={{ position: 'relative', height: '600px', width: '100%' }}>
+        <div className="landing-hero-gfx" style={{ position: 'relative', height: '600px', width: '100%' }}>
 
           {/* Foreground UI Elements */}
           <div className="animate-fade-up" style={{ position: 'absolute', top: '15%', right: '5%', width: '85%', zIndex: '2', animationDelay: '0.8s' }}>
@@ -101,7 +101,7 @@ export default function Landing() {
       </section>
 
       {/* Feature Bento Grid */}
-      <section style={{ padding: '0 64px 120px 64px', maxWidth: '1200px', margin: '0 auto' }}>
+      <section className="landing-features" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div className="bento-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
           
           <div className="bento-card" style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

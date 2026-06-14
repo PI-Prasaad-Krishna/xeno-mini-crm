@@ -78,32 +78,34 @@ export default function Audience() {
             <span className="tag" style={{ background: 'var(--surface-color)' }}>{segmentData.totalCount} Profiles Matched</span>
           </div>
           
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead>
-              <tr style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                <th style={{ padding: '16px 32px', fontWeight: '500' }}>Name</th>
-                <th style={{ padding: '16px 32px', fontWeight: '500' }}>Email</th>
-                <th style={{ padding: '16px 32px', fontWeight: '500' }}>LTV</th>
-                <th style={{ padding: '16px 32px', fontWeight: '500' }}>Tags</th>
-              </tr>
-            </thead>
-            <tbody>
-              {segmentData.preview.map((customer, i) => (
-                <tr key={customer._id} style={{ borderTop: '1px solid var(--border-color)', backgroundColor: i % 2 === 0 ? 'var(--surface-color)' : 'var(--surface-hover)' }}>
-                  <td style={{ padding: '16px 32px', fontWeight: '500' }}>{customer.name}</td>
-                  <td style={{ padding: '16px 32px', color: 'var(--text-secondary)' }}>{customer.email}</td>
-                  <td style={{ padding: '16px 32px', fontWeight: '500', color: 'var(--text-primary)' }}>${customer.lifetimeValue}</td>
-                  <td style={{ padding: '16px 32px' }}>
-                    <div style={{ display: 'flex', gap: '4px' }}>
-                      {customer.tags.map(tag => (
-                        <span key={tag} className="tag">{tag}</span>
-                      ))}
-                    </div>
-                  </td>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <th style={{ padding: '16px 32px', fontWeight: '500' }}>Name</th>
+                  <th style={{ padding: '16px 32px', fontWeight: '500' }}>Email</th>
+                  <th style={{ padding: '16px 32px', fontWeight: '500' }}>LTV</th>
+                  <th style={{ padding: '16px 32px', fontWeight: '500' }}>Tags</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {segmentData.preview.map((customer, i) => (
+                  <tr key={customer._id} style={{ borderTop: '1px solid var(--border-color)', backgroundColor: i % 2 === 0 ? 'var(--surface-color)' : 'var(--surface-hover)' }}>
+                    <td style={{ padding: '16px 32px', fontWeight: '500' }}>{customer.name}</td>
+                    <td style={{ padding: '16px 32px', color: 'var(--text-secondary)' }}>{customer.email}</td>
+                    <td style={{ padding: '16px 32px', fontWeight: '500', color: 'var(--text-primary)' }}>${customer.lifetimeValue}</td>
+                    <td style={{ padding: '16px 32px' }}>
+                      <div style={{ display: 'flex', gap: '4px' }}>
+                        {customer.tags.map(tag => (
+                          <span key={tag} className="tag">{tag}</span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

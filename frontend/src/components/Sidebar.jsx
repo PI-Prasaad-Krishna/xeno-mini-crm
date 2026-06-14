@@ -11,8 +11,8 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="sidebar" style={{ borderRight: 'none', backgroundColor: 'transparent' }}>
-      <div style={{ marginBottom: '60px', display: 'flex', alignItems: 'center', gap: '16px', paddingLeft: '8px' }}>
+    <div className="sidebar" style={{ backgroundColor: 'var(--surface-color)' }}>
+      <div className="sidebar-logo-container" style={{ marginBottom: '60px', display: 'flex', alignItems: 'center', gap: '16px', paddingLeft: '8px' }}>
         <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--text-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '600', fontSize: '20px', fontFamily: 'Playfair Display, serif' }}>X</div>
         <h2 className="editorial-serif" style={{ fontSize: '24px', margin: 0, letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>Xeno.</h2>
       </div>
@@ -32,9 +32,16 @@ export default function Sidebar() {
             </Link>
           );
         })}
+        
+        <div className="mobile-exit" style={{ display: 'none' }}>
+           <Link to="/" className="sidebar-link">
+             <ArrowLeft size={20} color="var(--text-tertiary)" strokeWidth={2} />
+             Exit
+           </Link>
+        </div>
       </nav>
 
-      <div style={{ marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid var(--border-color)' }}>
+      <div className="sidebar-bottom" style={{ marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid var(--border-color)' }}>
         <Link to="/" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>
           <ArrowLeft size={16} /> Exit Workspace
         </Link>
