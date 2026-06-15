@@ -27,6 +27,9 @@ io.on('connection', (socket) => {
 app.use(cors());
 app.use(express.json());
 
+// Health check route for cron-job.org to keep Render awake
+app.get('/ping', (req, res) => res.status(200).send('pong'));
+
 // Routes
 app.use('/api/ingest', require('./routes/ingest'));
 app.use('/api/segments', require('./routes/segments'));

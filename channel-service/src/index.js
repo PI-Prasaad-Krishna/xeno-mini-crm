@@ -6,6 +6,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Health check route for cron-job.org
+app.get('/ping', (req, res) => res.status(200).send('pong'));
+
 const WEBHOOK_URL = process.env.WEBHOOK_URL || 'http://localhost:3001/api/webhooks/channel-receipt';
 
 // Mock Channel Service Delivery Endpoint
